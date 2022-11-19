@@ -14,8 +14,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  late OneShotAnimation _oneShotAnimation;
-
   final _formKey = GlobalKey<FormState>();
   late TextEditingController _nameController;
   late TextEditingController _emailController;
@@ -24,10 +22,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void initState() {
-    _oneShotAnimation = OneShotAnimation(
-      utils.manatimeLoginCharacterAnimationName,
-      autoplay: false,
-    );
     _nameController = TextEditingController();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
@@ -38,7 +32,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    _oneShotAnimation.dispose();
     _emailController.dispose();
     _passwordController.dispose();
     _obscureText.dispose();
@@ -75,14 +68,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   const SizedBox(
                     height: utils.largePadding,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: utils.threeHundredDotNil,
                     width: utils.eightHundredDotNil,
                     child: RiveAnimation.asset(
                       utils.manatimeLoginCharacterRiveAsset,
-                      controllers: [
-                        _oneShotAnimation,
-                      ],
                     ),
                   ),
                   Text(
@@ -99,107 +89,72 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             const SizedBox(
                               height: utils.padding,
                             ),
-                            FocusScope(
-                              child: Focus(
-                                onFocusChange: (focused) {
-                                  if (focused) {
-                                    _oneShotAnimation.isActive = true;
-                                  } else {
-                                    _oneShotAnimation.isActive = false;
-                                  }
-                                },
-                                child: TextFormField(
-                                  controller: _nameController,
-                                  keyboardType: TextInputType.name,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  decoration: const InputDecoration(
-                                    prefixIcon: Icon(FontAwesomeIcons.font),
-                                    labelText: utils.nameText,
-                                  ),
-                                  validator: (value) =>
-                                      value == null || value.isEmpty
-                                          ? utils.emptyNameFieldText
-                                          : null,
-                                ),
+                            TextFormField(
+                              controller: _nameController,
+                              keyboardType: TextInputType.name,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(FontAwesomeIcons.font),
+                                labelText: utils.nameText,
                               ),
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? utils.emptyNameFieldText
+                                      : null,
                             ),
                             const SizedBox(
                               height: utils.padding,
                             ),
-                            FocusScope(
-                              child: Focus(
-                                onFocusChange: (focused) {
-                                  if (focused) {
-                                    _oneShotAnimation.isActive = true;
-                                  } else {
-                                    _oneShotAnimation.isActive = false;
-                                  }
-                                },
-                                child: TextFormField(
-                                  controller: _emailController,
-                                  keyboardType: TextInputType.emailAddress,
-                                  autovalidateMode:
-                                      AutovalidateMode.onUserInteraction,
-                                  decoration: const InputDecoration(
-                                    prefixIcon: Icon(FontAwesomeIcons.at),
-                                    labelText: utils.emailText,
-                                  ),
-                                  validator: (value) => value == null ||
-                                          value.isEmpty
+                            TextFormField(
+                              controller: _emailController,
+                              keyboardType: TextInputType.emailAddress,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              decoration: const InputDecoration(
+                                prefixIcon: Icon(FontAwesomeIcons.at),
+                                labelText: utils.emailText,
+                              ),
+                              validator: (value) =>
+                                  value == null || value.isEmpty
                                       ? utils.emptyEmailFieldText
                                       : !value.contains(utils.atSignText) ||
                                               !value.contains(utils.dotComText)
                                           ? utils.badEmailFormatText
                                           : null,
-                                ),
-                              ),
                             ),
                             const SizedBox(
                               height: utils.padding,
                             ),
                             ValueListenableBuilder<bool>(
                               valueListenable: _obscureText,
-                              builder: (_, obscureTextValue, __) => FocusScope(
-                                child: Focus(
-                                  onFocusChange: (focused) {
-                                    if (focused) {
-                                      _oneShotAnimation.isActive = true;
-                                    } else {
-                                      _oneShotAnimation.isActive = false;
-                                    }
-                                  },
-                                  child: TextFormField(
-                                    controller: _passwordController,
-                                    autovalidateMode:
-                                        AutovalidateMode.onUserInteraction,
-                                    decoration: InputDecoration(
-                                      prefixIcon:
-                                          const Icon(FontAwesomeIcons.lock),
-                                      suffixIcon: IconButton(
-                                        icon: obscureTextValue
-                                            ? const Icon(FontAwesomeIcons.eye)
-                                            : const Icon(
-                                                FontAwesomeIcons.eyeSlash),
-                                        onPressed: () {
-                                          _obscureText.value =
-                                              !obscureTextValue;
-                                        },
-                                      ),
-                                      labelText: utils.passwordText,
-                                    ),
-                                    obscureText: obscureTextValue,
-                                    validator: (value) =>
-                                        value == null || value.isEmpty
-                                            ? utils.emptyPasswordFieldText
-                                            : value.length <
-                                                    utils.tinyPadding +
-                                                        utils.tinyPadding +
-                                                        utils.tinyPadding
-                                                ? utils.passwordIsTooShortText
-                                                : null,
+                              builder: (_, obscureTextValue, __) =>
+                                  TextFormField(
+                                controller: _passwordController,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                decoration: InputDecoration(
+                                  prefixIcon: const Icon(FontAwesomeIcons.lock),
+                                  suffixIcon: IconButton(
+                                    icon: obscureTextValue
+                                        ? const Icon(FontAwesomeIcons.eye)
+                                        : const Icon(FontAwesomeIcons.eyeSlash),
+                                    onPressed: () {
+                                      _obscureText.value = !obscureTextValue;
+                                    },
                                   ),
+                                  labelText: utils.passwordText,
                                 ),
+                                obscureText: obscureTextValue,
+                                validator: (value) =>
+                                    value == null || value.isEmpty
+                                        ? utils.emptyPasswordFieldText
+                                        : value.length <
+                                                utils.tinyPadding +
+                                                    utils.tinyPadding +
+                                                    utils.tinyPadding
+                                            ? utils.passwordIsTooShortText
+                                            : null,
                               ),
                             ),
                             const SizedBox(
@@ -281,9 +236,75 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                          utils.signInScreenRoute,
+                                        BlocProvider.of<ScreenToShowCubit>(
+                                          context,
+                                        ).setScreenToShow(
+                                          utils.ScreenToShow.signIn,
+                                        );
+                                      },
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(
+                              height: utils.largePadding,
+                            ),
+                            Row(
+                              children: [
+                                const Expanded(
+                                  child: Divider(
+                                    height: utils.veryTinyPadding,
+                                    thickness: utils.veryTinyPadding,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: utils.smallPadding,
+                                  ),
+                                  child: Text(
+                                    utils.orText,
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
+                                  ),
+                                ),
+                                const Expanded(
+                                  child: Divider(
+                                    height: utils.veryTinyPadding,
+                                    thickness: utils.veryTinyPadding,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: utils.largePadding,
+                            ),
+                            RichText(
+                              textAlign: TextAlign.center,
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: utils.goBackToText,
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                    ),
+                                  ),
+                                  const TextSpan(
+                                    text: utils.whiteSpaceText,
+                                  ),
+                                  TextSpan(
+                                    text:
+                                        utils.selectCategoryText.toLowerCase(),
+                                    style: TextStyle(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                    recognizer: TapGestureRecognizer()
+                                      ..onTap = () {
+                                        BlocProvider.of<ScreenToShowCubit>(
+                                          context,
+                                        ).setScreenToShow(
+                                          utils.ScreenToShow.selectCategory,
                                         );
                                       },
                                   ),

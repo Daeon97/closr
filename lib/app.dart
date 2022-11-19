@@ -27,19 +27,39 @@ class App extends StatelessWidget {
         RepositoryProvider<DatabaseRepo>(
           create: (_) => DatabaseRepo(),
         ),
+        RepositoryProvider<ThemeRepo>(
+          create: (_) => const ThemeRepo(),
+        ),
       ];
 
   List<BlocProvider> get _blocProviders => [
         BlocProvider<AuthCubit>(
           create: (ctx) => AuthCubit(ctx.read<AuthRepo>()),
         ),
+        BlocProvider<CategoryCubit>(
+          create: (_) => CategoryCubit(),
+        ),
+        BlocProvider<ScreenToShowCubit>(
+          create: (_) => ScreenToShowCubit(),
+        ),
       ];
 
   Map<String, Widget Function(BuildContext)> get _routes => {
         defaultScreenRoute: (_) => AuthRepo().currentUser == null
-            ? const SelectCategoryScreen()
+            ? BlocBuilder<ScreenToShowCubit, ScreenToShowState>(
+                builder: (ctx, screenToShowState) {
+                  switch (screenToShowState.screenToShow) {
+                    case ScreenToShow.selectCategory:
+                      return const SelectCategoryScreen();
+                    case ScreenToShow.signIn:
+                      return const SignInScreen();
+                    case ScreenToShow.signUp:
+                      return const SignUpScreen();
+                  }
+                },
+              )
             : const HomeScreen(),
-        selectCategoryScreen: (_) => const SelectCategoryScreen(),
+        selectCategoryScreenRoute: (_) => const SelectCategoryScreen(),
         homeScreenRoute: (_) => const HomeScreen(),
         signInScreenRoute: (_) => const SignInScreen(),
         signUpScreenRoute: (_) => const SignUpScreen(),

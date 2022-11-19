@@ -261,15 +261,117 @@ class _SignInScreenState extends State<SignInScreen> {
                                 ),
                               ),
                             ),
-                            const SizedBox(
-                              height: utils.largePadding,
+                            BlocBuilder<CategoryCubit, CategoryState>(
+                              builder: (_, categoryState) => Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  categoryState.category == utils.Category.child
+                                      ? const SizedBox(
+                                          width: utils.nil,
+                                          height: utils.nil,
+                                        )
+                                      : const SizedBox(
+                                          height: utils.largePadding,
+                                        ),
+                                  categoryState.category == utils.Category.child
+                                      ? const SizedBox(
+                                          width: utils.nil,
+                                          height: utils.nil,
+                                        )
+                                      : RichText(
+                                          textAlign: TextAlign.center,
+                                          text: TextSpan(
+                                            children: [
+                                              TextSpan(
+                                                text: utils
+                                                    .newToClosrQuestionText,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                ),
+                                              ),
+                                              const TextSpan(
+                                                text: utils.whiteSpaceText,
+                                              ),
+                                              TextSpan(
+                                                text: utils.signUpText,
+                                                style: TextStyle(
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  fontWeight: FontWeight.bold,
+                                                  decoration:
+                                                      TextDecoration.underline,
+                                                ),
+                                                recognizer:
+                                                    TapGestureRecognizer()
+                                                      ..onTap = () {
+                                                        BlocProvider.of<
+                                                            ScreenToShowCubit>(
+                                                          context,
+                                                        ).setScreenToShow(
+                                                          utils.ScreenToShow
+                                                              .signUp,
+                                                        );
+                                                      },
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                  categoryState.category == utils.Category.child
+                                      ? const SizedBox(
+                                          width: utils.nil,
+                                          height: utils.nil,
+                                        )
+                                      : const SizedBox(
+                                          height: utils.largePadding,
+                                        ),
+                                  categoryState.category == utils.Category.child
+                                      ? const SizedBox(
+                                          width: utils.nil,
+                                          height: utils.nil,
+                                        )
+                                      : Row(
+                                          children: [
+                                            const Expanded(
+                                              child: Divider(
+                                                height: utils.veryTinyPadding,
+                                                thickness:
+                                                    utils.veryTinyPadding,
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                horizontal: utils.smallPadding,
+                                              ),
+                                              child: Text(
+                                                utils.orText,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                            ),
+                                            const Expanded(
+                                              child: Divider(
+                                                height: utils.veryTinyPadding,
+                                                thickness:
+                                                    utils.veryTinyPadding,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                  const SizedBox(
+                                    height: utils.largePadding,
+                                  ),
+                                ],
+                              ),
                             ),
                             RichText(
                               textAlign: TextAlign.center,
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: utils.newToClosrQuestionText,
+                                    text: utils.goBackToText,
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                     ),
@@ -278,7 +380,8 @@ class _SignInScreenState extends State<SignInScreen> {
                                     text: utils.whiteSpaceText,
                                   ),
                                   TextSpan(
-                                    text: utils.signUpText,
+                                    text:
+                                        utils.selectCategoryText.toLowerCase(),
                                     style: TextStyle(
                                       color: Theme.of(context).primaryColor,
                                       fontWeight: FontWeight.bold,
@@ -286,9 +389,10 @@ class _SignInScreenState extends State<SignInScreen> {
                                     ),
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        Navigator.of(context)
-                                            .pushReplacementNamed(
-                                          utils.signUpScreenRoute,
+                                        BlocProvider.of<ScreenToShowCubit>(
+                                          context,
+                                        ).setScreenToShow(
+                                          utils.ScreenToShow.selectCategory,
                                         );
                                       },
                                   ),

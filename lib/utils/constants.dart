@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 const defaultScreenRoute = '/';
-const selectCategoryScreen = '/selectCategory';
+const selectCategoryScreenRoute = '/selectCategory';
 const signInScreenRoute = '/signInScreen';
 const signUpScreenRoute = '/signUpScreen';
 const homeScreenRoute = '/homeScreen';
@@ -20,7 +20,6 @@ const animatedLoginCharacterTrigSuccessSMIInput = 'trigSuccess';
 const animatedLoginCharacterTrigFailSMIInput = 'trigFail';
 
 const manatimeLoginCharacterRiveAsset = 'assets/manatime_login_character.riv';
-const manatimeLoginCharacterAnimationName = 'Animation 1';
 
 const extraLargePadding = 128.0;
 const veryLargePadding = 64.0;
@@ -33,7 +32,7 @@ const nil = 0.0;
 
 const eightHundredDotNil = 800.0;
 const threeHundredDotNil = 300.0;
-const fiveHundredDotNil = 500.0;
+const fourHundredDotNil = 400.0;
 
 const baseColor = Color(0xFF1A2B47);
 const scaffoldBackgroundColor = Color(0xFFF3EFF5);
@@ -60,3 +59,7 @@ const selectACategorySubText =
     'Please select a category that appropriately describes you';
 const childText = 'Child';
 const parentText = 'Parent';
+const proceedText = 'Proceed';
+const orText = 'Or';
+const goBackToText = 'Go back to';
+const selectCategoryText = 'Select category';
