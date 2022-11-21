@@ -39,6 +39,9 @@ class App extends StatelessWidget {
         BlocProvider<CategoryCubit>(
           create: (_) => CategoryCubit(),
         ),
+        BlocProvider<ChildOpsCubit>(
+          create: (ctx) => ChildOpsCubit(ctx.read<DatabaseRepo>()),
+        ),
         BlocProvider<ScreenToShowCubit>(
           create: (_) => ScreenToShowCubit(),
         ),

@@ -36,13 +36,16 @@ class AuthenticatedState extends AuthState {
 
 class UnAuthenticatedState extends AuthState {
   final String? errorMessage;
+  final String? route;
 
   const UnAuthenticatedState({
     this.errorMessage,
+    this.route,
   });
 
   @override
   List<Object?> get props => [
         errorMessage,
+        route,
       ];
 }

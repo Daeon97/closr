@@ -25,7 +25,10 @@ class ThemeRepo {
             fontSize: utils.padding,
             fontWeight: FontWeight.w300,
           ),
-          bodySmall: TextStyle(),
+          bodySmall: TextStyle(
+            color: utils.bodyLargeTextColor,
+            fontSize: utils.padding - utils.tinyPadding,
+          ),
         ),
         inputDecorationTheme: const InputDecorationTheme(
           border: UnderlineInputBorder(
@@ -73,6 +76,22 @@ class ThemeRepo {
               ),
             ),
           ),
+          backgroundColor: Colors.transparent,
+          modalBackgroundColor: Colors.transparent,
+        ),
+        cardTheme: const CardTheme(
+          color: utils.baseColorLight,
+          elevation: utils.nil,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                utils.padding,
+              ),
+            ),
+          ),
+        ),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+          backgroundColor: utils.floatingActionButtonColor,
         ),
       );
 }

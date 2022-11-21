@@ -219,13 +219,18 @@ class _SelectCategoryScreenState extends State<SelectCategoryScreen>
                         BlocBuilder<CategoryCubit, CategoryState>(
                       builder: (categoryCtx, categoryState) => ElevatedButton(
                         onPressed: () {
-                          screenToShowCtx
-                              .read<ScreenToShowCubit>()
-                              .setScreenToShow(
-                                categoryState.category == utils.Category.child
-                                    ? utils.ScreenToShow.signIn
-                                    : utils.ScreenToShow.signUp,
-                              );
+                          if (categoryState.category == utils.Category.child) {
+                            utils.showInfo(
+                              context,
+                              message: utils.youCanOnlyProceedAsAParentText,
+                            );
+                          } else {
+                            screenToShowCtx
+                                .read<ScreenToShowCubit>()
+                                .setScreenToShow(
+                                  utils.ScreenToShow.signUp,
+                                );
+                          }
                         },
                         child: Center(
                           child: Padding(

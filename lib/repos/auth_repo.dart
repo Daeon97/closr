@@ -5,7 +5,7 @@ class AuthRepo {
 
   AuthRepo() : _auth = FirebaseAuth.instance;
 
-  Future<void> signIn({
+  Future<UserCredential> signIn({
     required String email,
     required String password,
   }) =>
@@ -14,16 +14,28 @@ class AuthRepo {
         password: password,
       );
 
-  Future<void> signUp({
+  Future<UserCredential> signUp({
+    required String name,
     required String email,
     required String password,
   }) =>
-      _auth.createUserWithEmailAndPassword(
+      _auth
+          .createUserWithEmailAndPassword(
         email: email,
         password: password,
+      )
+          .then(
+        (userCredential) async {
+          await userCredential.user!.updateDisplayName(
+            name,
+          );
+          return userCredential;
+        },
       );
 
   User? get currentUser => _auth.currentUser;
 
   Stream<User?> get userChanges => _auth.userChanges();
+
+  Future<void> signOut() => _auth.signOut();
 }
