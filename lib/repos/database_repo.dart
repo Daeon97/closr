@@ -17,26 +17,21 @@ class DatabaseRepo {
     required String gender,
     required String mClass,
   }) =>
-      _firestore
-          .collection(parentsCollectionName)
-          .doc(
-            _auth.currentUser!.uid,
-          )
-          .collection(childrenCollectionName)
-          .doc()
-          .set({
+      _firestore.collection(childrenCollectionName).doc().set({
         nameField: name,
         ageField: age,
         genderField: gender,
         classField: mClass,
+        parentField: _auth.currentUser!.uid,
+        timestampField: FieldValue.serverTimestamp(),
       });
 
   Stream<QuerySnapshot<Child>> get children => _firestore
-      .collection(parentsCollectionName)
-      .doc(
-        _auth.currentUser!.uid,
-      )
       .collection(childrenCollectionName)
+      .where(
+        parentField,
+        isEqualTo: _auth.currentUser!.uid,
+      )
       .withConverter<Child>(
         fromFirestore: (documentSnapshot, _) => Child.fromJson(
           documentSnapshot.data()!,
@@ -44,4 +39,27 @@ class DatabaseRepo {
         toFirestore: (child, _) => child.toJson(),
       )
       .snapshots();
+
+  Stream<DocumentSnapshot<Child>> childDetails(
+    String id,
+  ) =>
+      _firestore
+          .collection(childrenCollectionName)
+          .doc(id)
+          .withConverter<Child>(
+            fromFirestore: (documentSnapshot, _) => Child.fromJson(
+              documentSnapshot.data()!,
+            ),
+            toFirestore: (child, _) => child.toJson(),
+          )
+          .snapshots();
+
+  Future<QuerySnapshot<Module>> get modules => _firestore
+      .collection(modulesCollectionName)
+      .withConverter(
+        fromFirestore: (documentSnapshot, _) =>
+            Module.fromJson(documentSnapshot.data()!),
+        toFirestore: (module, _) => module.toJson(),
+      )
+      .get();
 }

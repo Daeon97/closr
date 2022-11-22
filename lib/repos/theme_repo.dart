@@ -92,6 +92,34 @@ class ThemeRepo {
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: utils.floatingActionButtonColor,
+          elevation: utils.nil,
+        ),
+        progressIndicatorTheme: ProgressIndicatorThemeData(
+          circularTrackColor: Colors.transparent,
+          color: Colors.white.withOpacity(
+            utils.nilDotFiveFive,
+          ),
+        ),
+        scrollbarTheme: ScrollbarThemeData(
+          thumbColor: MaterialStateProperty.all<Color>(
+            Colors.white,
+          ),
+          trackColor: MaterialStateProperty.all<Color>(
+            Colors.black.withOpacity(
+              utils.nilDotThreeThree,
+            ),
+          ),
+          thumbVisibility: MaterialStateProperty.all<bool>(
+            true,
+          ),
+          trackVisibility: MaterialStateProperty.all<bool>(
+            true,
+          ),
+          mainAxisMargin: utils.padding,
+          radius: const Radius.circular(
+            utils.smallPadding + utils.veryTinyPadding,
+          ),
+          interactive: true,
         ),
       );
 }

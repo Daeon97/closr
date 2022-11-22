@@ -1,24 +1,34 @@
 import 'dart:ui';
 
 const defaultScreenRoute = '/';
-const selectCategoryScreenRoute = '/selectCategory';
+const selectCategoryScreenRoute = '/selectCategoryScreen';
 const signInScreenRoute = '/signInScreen';
 const signUpScreenRoute = '/signUpScreen';
 const homeScreenRoute = '/homeScreen';
+const childDetailsScreenRoute = '/childDetailsScreen';
+const addModulesToChildScreenRoute = '/addModulesToChildScreen';
 
-const parentsCollectionName = 'parents';
 const childrenCollectionName = 'children';
+const modulesCollectionName = 'modules';
+const questionsCollectionName = 'questions';
 
+const childrenField = 'children';
 const nameField = 'name';
 const ageField = 'age';
 const classField = 'class';
 const genderField = 'gender';
+const descriptionField = 'description';
+const questionField = 'question';
+const optionsField = 'options';
+const timestampField = 'timestamp';
+const parentField = 'parent';
 
 const baseColor = Color(0xFF1A2B47);
 const baseColorLight = Color(0xFF2D3D5E);
 const scaffoldBackgroundColor = Color(0xFFF3EFF5);
 const bodyLargeTextColor = baseColor;
 const floatingActionButtonColor = Color(0xFFFF7900);
+const addModulesToChildScreenButtonColor = Color(0xFFB9B9B9);
 
 const mixingAnimationsCharacterRiveAsset =
     'assets/mixing_animations_character.riv';
@@ -42,6 +52,8 @@ const avatarPrototypeCharacterBodiesSMIInput = 'Bodies';
 const avatarPrototypeCharacterEyesSMIInput = 'Eyes';
 const avatarPrototypeCharacterMouthSMIInput = 'Mouth';
 
+const breathingBookCharacterRiveAsset = 'assets/breathing_book_character.riv';
+
 const extraLargePadding = 128.0;
 const veryLargePadding = 64.0;
 const largePadding = 32.0;
@@ -54,9 +66,18 @@ const oneDotFive = 1.5;
 const eightHundredDotNil = 800.0;
 const threeHundredDotNil = 300.0;
 const fourHundredDotNil = 400.0;
-const childrenCardHeight = 164.0;
-const questionModulesHeight = 290.0;
+const childrenCardHeight = 294.0;
+const childrenCardWidth = 220.0;
+const questionModulesHeight = 358.0;
+const questionModulesWidth = 313.0;
 const nilDotFiveFive = 0.55;
+const nilDotThreeEight = 0.38;
+const nilDotThreeThree = 0.33;
+const nilDotTwoOne = 0.21;
+const childDetailsFirstCardHeight = 227.36;
+const childDetailsFirstCardWidth = 398.0;
+const childDetailsThirdCardHeight = 199.0;
+const gridItemWidthAndHeight = 169.0;
 
 const signInText = 'Sign in';
 const emailText = 'Email';
@@ -108,5 +129,28 @@ const jss3Text = 'JSS3';
 const sss1Text = 'SSS1';
 const sss2Text = 'SSS2';
 const sss3Text = 'SSS3';
+const clickTheText = 'Click the';
+const toAddKidsToYourProfileText = 'To add kids to your profile';
+const toAssignQuestionModulesToText = 'To assign question modules to';
+const temperText = 'Temper';
+const depressionText = 'Depression';
+const complianceText = 'Compliance';
+const empathyText = 'Empathy';
+const adaptabilityText = 'Adaptability';
+const temperTestText = 'Temper Test';
+const depressionTestText = 'Depression Test';
+const complianceTestText = 'Compliance Test';
+const empathyTestText = 'Empathy Test';
+const adaptabilityTestText = 'Adaptability Test';
+const noModulesText = 'There are no modules at this time';
+const addModuleText = 'Add module';
+const differentHeroTagText = '<different FloatingActionButton tag>';
+const historyText = 'History';
+const connectWithAProfessionalText = 'Connect with a professional';
+const moduleProgressText = 'Module Progress';
+const modulesText = 'Modules';
+const addToText = 'Add to';
+const apostropheSText = '\'s';
+const profileText = 'profile';
 
 const waveHandSignEmoji = '👋';
