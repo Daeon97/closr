@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:drag_select_grid_view/drag_select_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:rive/rive.dart';
 import '../cubits/cubits.dart';
-import '../models/models.dart' as models;
 import '../utils/utils.dart' as utils;
 
 class AddModulesToChildScreen extends StatefulWidget {
@@ -17,28 +16,31 @@ class AddModulesToChildScreen extends StatefulWidget {
 }
 
 class _AddModulesToChildScreenState extends State<AddModulesToChildScreen> {
+  late DragSelectGridViewController _dragSelectGridViewController;
+
   @override
   void initState() {
-    BlocProvider.of<ModuleOpsCubit>(context).getModules();
-    BlocProvider.of<ChildDetailsOpsCubit>(context)
-        .listenChildDetailsChanges(widget._id);
+    _dragSelectGridViewController = DragSelectGridViewController();
+
+    BlocProvider.of<UnAssignedModulesOpsCubit>(context)
+        .getNotChildModules(widget._id);
 
     super.initState();
   }
 
   @override
-  void deactivate() {
-    BlocProvider.of<ChildDetailsOpsCubit>(context)
-        .stopListeningChildDetailsChanges();
+  void dispose() {
+    _dragSelectGridViewController.dispose();
 
-    super.deactivate();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) => Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
-        body: BlocBuilder<ModuleOpsCubit, ModuleOpsState>(
-          builder: (_, moduleOpsState) => moduleOpsState is GotModulesState
+        body: BlocBuilder<UnAssignedModulesOpsCubit, UnAssignedModulesOpsState>(
+          builder: (_, unassignedModuleOpsState) => unassignedModuleOpsState
+                  is GotNotChildModulesState
               ? Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: utils.largePadding,
@@ -70,110 +72,291 @@ class _AddModulesToChildScreenState extends State<AddModulesToChildScreen> {
                                   ),
                                 ),
                                 Expanded(
-                                  child: GridView.builder(
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: utils.tinyPadding.toInt(),
-                                      crossAxisSpacing: utils.padding,
-                                      mainAxisSpacing: utils.padding,
-                                    ),
-                                    itemCount: moduleOpsState.modules.length,
-                                    itemBuilder: (_, index) => Card(
-                                      color: Theme.of(context).primaryColor,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(
-                                          utils.padding,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
-                                              moduleOpsState.modules[index]
-                                                  .data()
-                                                  .name,
-                                              maxLines:
-                                                  utils.veryTinyPadding.toInt(),
-                                              overflow: TextOverflow.fade,
-                                              style: TextStyle(
-                                                fontSize: utils.smallPadding +
-                                                    utils.tinyPadding +
+                                  child: unassignedModuleOpsState
+                                          .modules.isNotEmpty
+                                      ? DragSelectGridView(
+                                          gridController:
+                                              _dragSelectGridViewController,
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount:
+                                                utils.tinyPadding.toInt(),
+                                            crossAxisSpacing: utils.padding,
+                                            mainAxisSpacing: utils.padding,
+                                          ),
+                                          triggerSelectionOnTap: true,
+                                          itemCount: unassignedModuleOpsState
+                                              .modules.length,
+                                          itemBuilder: (_, index, isSelected) =>
+                                              Stack(
+                                            clipBehavior: Clip.none,
+                                            children: [
+                                              Card(
+                                                color: Theme.of(context)
+                                                    .primaryColor,
+                                                child: Padding(
+                                                  padding: const EdgeInsets.all(
+                                                    utils.padding,
+                                                  ),
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: [
+                                                      Text(
+                                                        unassignedModuleOpsState
+                                                            .modules[index]
+                                                            .data()
+                                                            .name,
+                                                        maxLines: utils
+                                                            .veryTinyPadding
+                                                            .toInt(),
+                                                        overflow:
+                                                            TextOverflow.fade,
+                                                        style: TextStyle(
+                                                          fontSize: utils
+                                                                  .smallPadding +
+                                                              utils
+                                                                  .tinyPadding +
+                                                              utils.tinyPadding,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColorLight,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                      const SizedBox(
+                                                        height: utils.padding,
+                                                      ),
+                                                      Text(
+                                                        unassignedModuleOpsState
+                                                            .modules[index]
+                                                            .data()
+                                                            .description,
+                                                        maxLines: utils
+                                                                .tinyPadding
+                                                                .toInt() +
+                                                            utils.tinyPadding
+                                                                .toInt(),
+                                                        overflow:
+                                                            TextOverflow.fade,
+                                                        style: TextStyle(
+                                                          fontSize:
+                                                              utils.padding,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColorLight,
+                                                          fontWeight:
+                                                              FontWeight.normal,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                              isSelected
+                                                  ? Positioned(
+                                                      top: -utils.smallPadding,
+                                                      right: utils.nil,
+                                                      child: Container(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(
+                                                          utils.tinyPadding +
+                                                              utils.tinyPadding,
+                                                        ),
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Colors.green,
+                                                          shape:
+                                                              BoxShape.circle,
+                                                        ),
+                                                        child: Icon(
+                                                          FontAwesomeIcons
+                                                              .check,
+                                                          color: Theme.of(
+                                                                  context)
+                                                              .primaryColorLight,
+                                                          size: utils.padding,
+                                                        ),
+                                                      ),
+                                                    )
+                                                  : const SizedBox(
+                                                      width: utils.nil,
+                                                      height: utils.nil,
+                                                    ),
+                                            ],
+                                          ),
+                                        )
+                                      : Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                FontAwesomeIcons.circleQuestion,
+                                                size: (utils.largePadding +
+                                                        utils.smallPadding) -
                                                     utils.tinyPadding,
                                                 color: Theme.of(context)
-                                                    .primaryColorLight,
-                                                fontWeight: FontWeight.w500,
+                                                    .primaryColorLight
+                                                    .withOpacity(
+                                                      utils.nilDotFiveFive,
+                                                    ),
                                               ),
-                                            ),
-                                            const SizedBox(
-                                              height: utils.padding,
-                                            ),
-                                            Text(
-                                              moduleOpsState.modules[index]
-                                                  .data()
-                                                  .description,
-                                              maxLines:
-                                                  utils.tinyPadding.toInt() +
-                                                      utils.tinyPadding.toInt(),
-                                              overflow: TextOverflow.fade,
-                                              style: TextStyle(
-                                                fontSize: utils.padding,
-                                                color: Theme.of(context)
-                                                    .primaryColorLight,
-                                                fontWeight: FontWeight.normal,
+                                              const SizedBox(
+                                                height: utils.tinyPadding +
+                                                    utils.tinyPadding,
                                               ),
-                                            ),
-                                          ],
+                                              BlocBuilder<ChildDetailsOpsCubit,
+                                                  ChildDetailsOpsState>(
+                                                builder:
+                                                    (_, childDetailsOpsState) =>
+                                                        RichText(
+                                                  textAlign: TextAlign.center,
+                                                  text: TextSpan(
+                                                    style: TextStyle(
+                                                      fontSize: utils.padding +
+                                                          utils.veryTinyPadding,
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight
+                                                          .withOpacity(
+                                                            utils
+                                                                .nilDotFiveFive,
+                                                          ),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                    children: [
+                                                      const TextSpan(
+                                                        text: utils
+                                                            .allAvailableQuestionsHaveBeenAddedToText,
+                                                      ),
+                                                      const TextSpan(
+                                                        text: utils
+                                                            .whiteSpaceText,
+                                                      ),
+                                                      TextSpan(
+                                                        text: childDetailsOpsState
+                                                                is GotChildDetailsState
+                                                            ? childDetailsOpsState
+                                                                .child
+                                                                .data()!
+                                                                .name
+                                                            : utils
+                                                                .emptyStringText,
+                                                      ),
+                                                      const TextSpan(
+                                                        text: utils
+                                                            .apostropheSText,
+                                                      ),
+                                                      const TextSpan(
+                                                        text: utils
+                                                            .whiteSpaceText,
+                                                      ),
+                                                      const TextSpan(
+                                                        text: utils.profileText,
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                    ),
-                                  ),
                                 ),
                                 const SizedBox(
                                   height: utils.padding,
                                 ),
-                                ElevatedButton(
-                                  onPressed: () {
-                                    // call function here
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: Center(
-                                    child: BlocBuilder<ChildDetailsOpsCubit,
-                                        ChildDetailsOpsState>(
-                                      builder: (_, childDetailsOpsState) =>
-                                          RichText(
-                                        text: TextSpan(
-                                          style: const TextStyle(
-                                            color: utils
-                                                .addModulesToChildScreenButtonColor,
-                                            fontSize: utils.padding +
-                                                utils.tinyPadding +
-                                                utils.veryTinyPadding,
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: ValueListenableBuilder(
+                                    valueListenable:
+                                        _dragSelectGridViewController,
+                                    builder: (_,
+                                            dragSelectGridViewControllerValue,
+                                            __) =>
+                                        ElevatedButton(
+                                      style: ButtonStyle(
+                                        backgroundColor:
+                                            dragSelectGridViewControllerValue
+                                                    .isSelecting
+                                                ? MaterialStateProperty.all<
+                                                    Color>(
+                                                    Colors.green,
+                                                  )
+                                                : null,
+                                      ),
+                                      onPressed:
+                                          dragSelectGridViewControllerValue
+                                                  .selectedIndexes.isNotEmpty
+                                              ? () {
+                                                  BlocProvider.of<
+                                                              ModulesToChildOpsCubit>(
+                                                          context)
+                                                      .addModulesToChild(
+                                                    childId: widget._id,
+                                                    moduleIds: dragSelectGridViewControllerValue
+                                                        .selectedIndexes
+                                                        .map<String>((index) =>
+                                                            unassignedModuleOpsState
+                                                                .modules[index]
+                                                                .id)
+                                                        .toList(),
+                                                  );
+                                                  Navigator.of(context).pop();
+                                                  Navigator.of(context).pop();
+                                                }
+                                              : null,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: utils.padding,
+                                        ),
+                                        child: BlocBuilder<ChildDetailsOpsCubit,
+                                            ChildDetailsOpsState>(
+                                          builder: (_, childDetailsOpsState) =>
+                                              RichText(
+                                            text: TextSpan(
+                                              style: TextStyle(
+                                                color: dragSelectGridViewControllerValue
+                                                        .isSelecting
+                                                    ? Theme.of(context)
+                                                        .primaryColorLight
+                                                    : utils
+                                                        .addModulesToChildScreenButtonColor,
+                                                fontSize: utils.padding +
+                                                    utils.tinyPadding +
+                                                    utils.veryTinyPadding,
+                                              ),
+                                              children: [
+                                                const TextSpan(
+                                                  text: utils.addToText,
+                                                ),
+                                                const TextSpan(
+                                                  text: utils.whiteSpaceText,
+                                                ),
+                                                TextSpan(
+                                                  text: childDetailsOpsState
+                                                          is GotChildDetailsState
+                                                      ? childDetailsOpsState
+                                                          .child
+                                                          .data()!
+                                                          .name
+                                                      : utils.emptyStringText,
+                                                ),
+                                                const TextSpan(
+                                                  text: utils.apostropheSText,
+                                                ),
+                                                const TextSpan(
+                                                  text: utils.whiteSpaceText,
+                                                ),
+                                                const TextSpan(
+                                                  text: utils.profileText,
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          children: [
-                                            const TextSpan(
-                                              text: utils.addToText,
-                                            ),
-                                            const TextSpan(
-                                              text: utils.whiteSpaceText,
-                                            ),
-                                            TextSpan(
-                                              text: childDetailsOpsState
-                                                      is GotChildDetailsState
-                                                  ? childDetailsOpsState.child
-                                                      .data()!
-                                                      .name
-                                                  : utils.emptyStringText,
-                                            ),
-                                            const TextSpan(
-                                              text: utils.apostropheSText,
-                                            ),
-                                            const TextSpan(
-                                              text: utils.whiteSpaceText,
-                                            ),
-                                            const TextSpan(
-                                              text: utils.profileText,
-                                            ),
-                                          ],
                                         ),
                                       ),
                                     ),

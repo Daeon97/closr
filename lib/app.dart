@@ -48,8 +48,14 @@ class App extends StatelessWidget {
         BlocProvider<ModuleOpsCubit>(
           create: (ctx) => ModuleOpsCubit(ctx.read<DatabaseRepo>()),
         ),
+        BlocProvider<ModulesToChildOpsCubit>(
+          create: (ctx) => ModulesToChildOpsCubit(ctx.read<DatabaseRepo>()),
+        ),
         BlocProvider<ScreenToShowCubit>(
           create: (_) => ScreenToShowCubit(),
+        ),
+        BlocProvider<UnAssignedModulesOpsCubit>(
+          create: (ctx) => UnAssignedModulesOpsCubit(ctx.read<DatabaseRepo>()),
         ),
       ];
 
@@ -81,6 +87,12 @@ class App extends StatelessWidget {
               return const SignUpScreen();
             case childDetailsScreenRoute:
               return ChildDetailsScreen(settings.arguments as String);
+            case quizzesScreenRoute:
+              return const QuizzesScreen();
+            case quizzesToQuestionsTransitionScreenRoute:
+              return const QuizzesToQuestionsTransitionScreen();
+            case questionsScreenRoute:
+              return const QuestionsScreen();
             default:
               return const SizedBox(
                 width: nil,

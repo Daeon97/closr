@@ -35,7 +35,7 @@ class ChildOpsCubit extends Cubit<ChildOpsState> {
       await _childrenStreamSubscription!.cancel();
       _childrenStreamSubscription = null;
     }
-    _childrenStreamSubscription = _databaseRepo.children.listen(
+    _childrenStreamSubscription = _databaseRepo.childrenStream.listen(
       (querySnapshot) {
         final children = <QueryDocumentSnapshot<Child>>[];
         for (final queryDocumentSnapshot in querySnapshot.docs) {

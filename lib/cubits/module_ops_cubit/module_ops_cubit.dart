@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,7 +17,7 @@ class ModuleOpsCubit extends Cubit<ModuleOpsState> {
 
   void getModules() async {
     final modules = <QueryDocumentSnapshot<Module>>[];
-    final querySnapshot = await _databaseRepo.modules;
+    final querySnapshot = await _databaseRepo.modulesFuture;
 
     for (final queryDocumentSnapshot in querySnapshot.docs) {
       modules.add(

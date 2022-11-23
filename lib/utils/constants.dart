@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 const defaultScreenRoute = '/';
 const selectCategoryScreenRoute = '/selectCategoryScreen';
@@ -7,6 +7,10 @@ const signUpScreenRoute = '/signUpScreen';
 const homeScreenRoute = '/homeScreen';
 const childDetailsScreenRoute = '/childDetailsScreen';
 const addModulesToChildScreenRoute = '/addModulesToChildScreen';
+const quizzesScreenRoute = '/quizzesScreen';
+const quizzesToQuestionsTransitionScreenRoute =
+    '/quizzesToQuestionsTransitionScreen';
+const questionsScreenRoute = '/questionsScreen';
 
 const childrenCollectionName = 'children';
 const modulesCollectionName = 'modules';
@@ -54,6 +58,10 @@ const avatarPrototypeCharacterMouthSMIInput = 'Mouth';
 
 const breathingBookCharacterRiveAsset = 'assets/breathing_book_character.riv';
 
+const holdingPhoneImage = AssetImage(
+  'assets/holding_phone.png',
+);
+
 const extraLargePadding = 128.0;
 const veryLargePadding = 64.0;
 const largePadding = 32.0;
@@ -75,8 +83,7 @@ const nilDotThreeEight = 0.38;
 const nilDotThreeThree = 0.33;
 const nilDotTwoOne = 0.21;
 const childDetailsFirstCardHeight = 227.36;
-const childDetailsFirstCardWidth = 398.0;
-const childDetailsThirdCardHeight = 199.0;
+const childDetailsThirdCardHeight = 220.0;
 const gridItemWidthAndHeight = 169.0;
 
 const signInText = 'Sign in';
@@ -145,6 +152,8 @@ const adaptabilityTestText = 'Adaptability Test';
 const noModulesText = 'There are no modules at this time';
 const addModuleText = 'Add module';
 const differentHeroTagText = '<different FloatingActionButton tag>';
+const anotherDifferentHeroTagText =
+    '<another different FloatingActionButton tag>';
 const historyText = 'History';
 const connectWithAProfessionalText = 'Connect with a professional';
 const moduleProgressText = 'Module Progress';
@@ -152,5 +161,16 @@ const modulesText = 'Modules';
 const addToText = 'Add to';
 const apostropheSText = '\'s';
 const profileText = 'profile';
+const takeQuizzesText = 'Take Quizzes';
+const allAvailableQuestionsHaveBeenAddedToText =
+    'All available questions have been added to';
+const quizzesText = 'Quizzes';
+const noAvailableQuizzesForText = 'There are no available quizzes for';
+const percentText = '%';
+const startText = 'Start';
+const continueText = 'Continue';
+const instructionText = 'Instruction';
+const passYourText = 'Pass Your';
+const phoneToText = 'Phone To';
 
 const waveHandSignEmoji = '👋';

@@ -26,7 +26,7 @@ class DatabaseRepo {
         timestampField: FieldValue.serverTimestamp(),
       });
 
-  Stream<QuerySnapshot<Child>> get children => _firestore
+  Stream<QuerySnapshot<Child>> get childrenStream => _firestore
       .collection(childrenCollectionName)
       .where(
         parentField,
@@ -40,7 +40,7 @@ class DatabaseRepo {
       )
       .snapshots();
 
-  Stream<DocumentSnapshot<Child>> childDetails(
+  Stream<DocumentSnapshot<Child>> childDetailsStream(
     String id,
   ) =>
       _firestore
@@ -54,7 +54,7 @@ class DatabaseRepo {
           )
           .snapshots();
 
-  Future<QuerySnapshot<Module>> get modules => _firestore
+  Future<QuerySnapshot<Module>> get modulesFuture => _firestore
       .collection(modulesCollectionName)
       .withConverter(
         fromFirestore: (documentSnapshot, _) =>
@@ -62,4 +62,129 @@ class DatabaseRepo {
         toFirestore: (module, _) => module.toJson(),
       )
       .get();
+
+  Future<void> addModulesToChild({
+    required String childId,
+    required List<String> moduleIds,
+  }) async {
+    for (final moduleId in moduleIds) {
+      final moduleDocumentSnapshot = await _firestore
+          .collection(modulesCollectionName)
+          .doc(moduleId)
+          .get();
+      final childModuleDocumentReference = _firestore
+          .collection(childrenCollectionName)
+          .doc(childId)
+          .collection(modulesCollectionName)
+          .doc(moduleDocumentSnapshot.id);
+      final moduleQuestionsQuerySnapshot = await moduleDocumentSnapshot
+          .reference
+          .collection(questionsCollectionName)
+          .get();
+      if (moduleQuestionsQuerySnapshot.docs.isNotEmpty) {
+        for (final moduleQuestionsQueryDocumentSnapshot
+            in moduleQuestionsQuerySnapshot.docs) {
+          await childModuleDocumentReference
+              .collection(questionsCollectionName)
+              .doc(moduleQuestionsQueryDocumentSnapshot.id)
+              .set({
+            optionsField:
+                moduleQuestionsQueryDocumentSnapshot.data()[optionsField],
+            questionField:
+                moduleQuestionsQueryDocumentSnapshot.data()[questionField],
+          });
+        }
+      }
+      await childModuleDocumentReference.set({
+        nameField: moduleDocumentSnapshot.data()![nameField],
+        descriptionField: moduleDocumentSnapshot.data()![descriptionField],
+      });
+    }
+  }
+
+  // consider adding a child module questions function corresponding to this one too
+  Future<List<QueryDocumentSnapshot<Module>>> childModulesFuture(
+    String id,
+  ) =>
+      _firestore
+          .collection(childrenCollectionName)
+          .doc(id)
+          .collection(modulesCollectionName)
+          .withConverter(
+            fromFirestore: (documentSnapshot, _) =>
+                Module.fromJson(documentSnapshot.data()!),
+            toFirestore: (module, _) => module.toJson(),
+          )
+          .get()
+          .then(
+        (querySnapshot) {
+          final modules = <QueryDocumentSnapshot<Module>>[];
+          if (querySnapshot.docs.isNotEmpty) {
+            for (final queryDocumentSnapshot in querySnapshot.docs) {
+              modules.add(queryDocumentSnapshot);
+            }
+          }
+          return modules;
+        },
+      );
+
+  Stream<QuerySnapshot<Module>> childModulesStream(
+    String id,
+  ) =>
+      _firestore
+          .collection(childrenCollectionName)
+          .doc(id)
+          .collection(modulesCollectionName)
+          .withConverter(
+            fromFirestore: (documentSnapshot, _) =>
+                Module.fromJson(documentSnapshot.data()!),
+            toFirestore: (module, _) => module.toJson(),
+          )
+          .snapshots();
+
+  Future<List<QueryDocumentSnapshot<Module>>> notChildModulesFuture(
+    String id,
+  ) async {
+    final modulesQuerySnapshot = await _firestore
+        .collection(modulesCollectionName)
+        .withConverter(
+          fromFirestore: (documentSnapshot, _) =>
+              Module.fromJson(documentSnapshot.data()!),
+          toFirestore: (module, _) => module.toJson(),
+        )
+        .get();
+    final childModulesQuerySnapshot = await _firestore
+        .collection(childrenCollectionName)
+        .doc(id)
+        .collection(modulesCollectionName)
+        .withConverter(
+          fromFirestore: (documentSnapshot, _) =>
+              Module.fromJson(documentSnapshot.data()!),
+          toFirestore: (module, _) => module.toJson(),
+        )
+        .get();
+    final modules = <QueryDocumentSnapshot<Module>>[];
+    final childModulesDocIds = <String>[];
+
+    if (childModulesQuerySnapshot.docs.isNotEmpty) {
+      for (final childModulesQueryDocumentSnapshot
+          in childModulesQuerySnapshot.docs) {
+        childModulesDocIds.add(
+          childModulesQueryDocumentSnapshot.id,
+        );
+      }
+    }
+
+    for (final moduleQueryDocumentSnapshot in modulesQuerySnapshot.docs) {
+      if (childModulesDocIds.isNotEmpty) {
+        if (!childModulesDocIds.contains(moduleQueryDocumentSnapshot.id)) {
+          modules.add(moduleQueryDocumentSnapshot);
+        }
+      } else {
+        modules.add(moduleQueryDocumentSnapshot);
+      }
+    }
+
+    return modules;
+  }
 }

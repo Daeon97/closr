@@ -24,7 +24,7 @@ class ChildDetailsOpsCubit extends Cubit<ChildDetailsOpsState> {
       await _childDetailsStreamSubscription!.cancel();
       _childDetailsStreamSubscription = null;
     }
-    _childDetailsStreamSubscription = _databaseRepo.childDetails(id).listen(
+    _childDetailsStreamSubscription = _databaseRepo.childDetailsStream(id).listen(
       (documentSnapshot) {
         _childDetails(
           documentSnapshot,

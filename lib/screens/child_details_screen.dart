@@ -58,6 +58,8 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
   void initState() {
     BlocProvider.of<ChildDetailsOpsCubit>(context)
         .listenChildDetailsChanges(widget._id);
+    BlocProvider.of<ModulesToChildOpsCubit>(context)
+        .listenChildModulesChanges(widget._id);
 
     super.initState();
   }
@@ -66,6 +68,8 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
   void deactivate() {
     BlocProvider.of<ChildDetailsOpsCubit>(context)
         .stopListeningChildDetailsChanges();
+    BlocProvider.of<ModulesToChildOpsCubit>(context)
+        .stopListeningChildModulesChanges();
 
     super.deactivate();
   }
@@ -342,6 +346,186 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                             ),
                           ),
                         ),
+                        BlocBuilder<ModulesToChildOpsCubit,
+                            ModulesToChildOpsState>(
+                          builder: (_, modulesToChildOpsState) =>
+                              modulesToChildOpsState is GotChildModulesState &&
+                                      modulesToChildOpsState.modules.isNotEmpty
+                                  ? Column(
+                                      children: [
+                                        const SizedBox(
+                                          height: utils.smallPadding +
+                                              utils.tinyPadding,
+                                        ),
+                                        Card(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(
+                                              utils.padding,
+                                            ),
+                                            child: SizedBox(
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Column(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          utils
+                                                              .moduleProgressText,
+                                                          style: TextStyle(
+                                                            fontSize: utils
+                                                                    .padding +
+                                                                utils
+                                                                    .veryTinyPadding,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColorLight
+                                                                .withOpacity(
+                                                                  utils
+                                                                      .nilDotFiveFive,
+                                                                ),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: utils.padding,
+                                                        ),
+                                                        Text(
+                                                          utils.takeQuizzesText,
+                                                          style: TextStyle(
+                                                            fontSize: utils
+                                                                    .padding +
+                                                                utils
+                                                                    .smallPadding,
+                                                            color: Theme.of(
+                                                                    context)
+                                                                .primaryColorLight
+                                                                .withOpacity(
+                                                                  utils
+                                                                      .nilDotFiveFive,
+                                                                ),
+                                                            fontWeight:
+                                                                FontWeight.w500,
+                                                          ),
+                                                        ),
+                                                        const SizedBox(
+                                                          height: utils.padding,
+                                                        ),
+                                                        Wrap(
+                                                          spacing: utils
+                                                                  .tinyPadding +
+                                                              utils
+                                                                  .tinyPadding +
+                                                              utils.tinyPadding,
+                                                          runSpacing: utils
+                                                                  .tinyPadding +
+                                                              utils
+                                                                  .tinyPadding +
+                                                              utils.tinyPadding,
+                                                          children: List<
+                                                              Widget>.generate(
+                                                            modulesToChildOpsState
+                                                                .modules.length,
+                                                            (index) =>
+                                                                Container(
+                                                              padding:
+                                                                  const EdgeInsets
+                                                                      .symmetric(
+                                                                horizontal: utils
+                                                                    .padding,
+                                                                vertical: utils
+                                                                        .tinyPadding +
+                                                                    utils
+                                                                        .tinyPadding,
+                                                              ),
+                                                              decoration:
+                                                                  BoxDecoration(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                                borderRadius:
+                                                                    BorderRadius
+                                                                        .circular(
+                                                                  utils
+                                                                      .smallPadding,
+                                                                ),
+                                                              ),
+                                                              child: Text(
+                                                                modulesToChildOpsState
+                                                                    .modules[
+                                                                        index]
+                                                                    .data()
+                                                                    .name,
+                                                                maxLines: utils
+                                                                    .veryTinyPadding
+                                                                    .toInt(),
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .fade,
+                                                                style:
+                                                                    TextStyle(
+                                                                  fontSize: utils
+                                                                          .smallPadding +
+                                                                      utils
+                                                                          .veryTinyPadding,
+                                                                  color: Theme.of(
+                                                                          context)
+                                                                      .primaryColorLight,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: utils.largePadding +
+                                                        utils.tinyPadding +
+                                                        utils.tinyPadding,
+                                                    height: utils.largePadding +
+                                                        utils.tinyPadding +
+                                                        utils.tinyPadding,
+                                                    child: FloatingActionButton(
+                                                      heroTag: utils
+                                                          .anotherDifferentHeroTagText,
+                                                      onPressed: () {
+                                                        Navigator.of(context)
+                                                            .pushNamed(
+                                                          utils
+                                                              .quizzesScreenRoute,
+                                                          arguments: widget._id,
+                                                        );
+                                                      },
+                                                      child: const Icon(
+                                                        FontAwesomeIcons
+                                                            .arrowRight,
+                                                        size:
+                                                            utils.largePadding,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : const SizedBox(
+                                      width: utils.nil,
+                                      height: utils.nil,
+                                    ),
+                        ),
                         const SizedBox(
                           height: utils.smallPadding + utils.tinyPadding,
                         ),
@@ -369,70 +553,159 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                                   width: MediaQuery.of(context).size.width,
                                   height: utils.childDetailsThirdCardHeight -
                                       (utils.padding + utils.smallPadding),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        utils.clickTheText,
-                                        style: TextStyle(
-                                          fontSize: utils.padding +
-                                              utils.veryTinyPadding,
-                                          color: Theme.of(context)
-                                              .primaryColorLight
-                                              .withOpacity(
-                                                utils.nilDotFiveFive,
+                                  child: BlocBuilder<ModulesToChildOpsCubit,
+                                      ModulesToChildOpsState>(
+                                    builder: (_, modulesToChildOpsState) =>
+                                        modulesToChildOpsState
+                                                    is GotChildModulesState &&
+                                                modulesToChildOpsState
+                                                    .modules.isNotEmpty
+                                            ? Column(
+                                                children: [
+                                                  const SizedBox(
+                                                    height: utils.smallPadding +
+                                                        utils.tinyPadding,
+                                                  ),
+                                                  Wrap(
+                                                    alignment:
+                                                        WrapAlignment.center,
+                                                    runAlignment:
+                                                        WrapAlignment.center,
+                                                    spacing: utils.padding,
+                                                    runSpacing: utils.padding,
+                                                    children:
+                                                        List<Widget>.generate(
+                                                      modulesToChildOpsState
+                                                          .modules.length,
+                                                      (index) => Column(
+                                                        // alignment: Alignment.center,
+                                                        children: [
+                                                          SizedBox(
+                                                            width: utils
+                                                                .veryLargePadding,
+                                                            height: utils
+                                                                .veryLargePadding,
+                                                            child:
+                                                                CircularProgressIndicator(
+                                                              value: utils.nil,
+                                                              backgroundColor:
+                                                                  Colors.black
+                                                                      .withOpacity(
+                                                                utils
+                                                                    .nilDotTwoOne,
+                                                              ),
+                                                            ),
+                                                          ),
+                                                          const SizedBox(
+                                                            height: utils
+                                                                    .tinyPadding +
+                                                                utils
+                                                                    .tinyPadding,
+                                                          ),
+                                                          Text(
+                                                            modulesToChildOpsState
+                                                                .modules[index]
+                                                                .data()
+                                                                .name,
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                              fontSize: utils
+                                                                      .smallPadding +
+                                                                  utils
+                                                                      .tinyPadding +
+                                                                  utils
+                                                                      .tinyPadding,
+                                                              color: Theme.of(
+                                                                      context)
+                                                                  .primaryColorLight,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              )
+                                            : Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    utils.clickTheText,
+                                                    style: TextStyle(
+                                                      fontSize: utils.padding +
+                                                          utils.veryTinyPadding,
+                                                      color: Theme.of(context)
+                                                          .primaryColorLight
+                                                          .withOpacity(
+                                                            utils
+                                                                .nilDotFiveFive,
+                                                          ),
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: utils.tinyPadding +
+                                                        utils.tinyPadding,
+                                                  ),
+                                                  Icon(
+                                                    FontAwesomeIcons.circlePlus,
+                                                    size: (utils.largePadding +
+                                                            utils
+                                                                .smallPadding) -
+                                                        utils.tinyPadding,
+                                                    color: Theme.of(context)
+                                                        .primaryColorLight
+                                                        .withOpacity(
+                                                          utils.nilDotFiveFive,
+                                                        ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: utils.tinyPadding +
+                                                        utils.tinyPadding,
+                                                  ),
+                                                  RichText(
+                                                    text: TextSpan(
+                                                      children: [
+                                                        const TextSpan(
+                                                          text: utils
+                                                              .toAssignQuestionModulesToText,
+                                                        ),
+                                                        const TextSpan(
+                                                          text: utils
+                                                              .whiteSpaceText,
+                                                        ),
+                                                        TextSpan(
+                                                          text:
+                                                              childDetailsOpsState
+                                                                  .child
+                                                                  .data()!
+                                                                  .name,
+                                                        ),
+                                                      ],
+                                                      style: TextStyle(
+                                                        fontSize: utils
+                                                                .padding +
+                                                            utils
+                                                                .veryTinyPadding,
+                                                        color: Theme.of(context)
+                                                            .primaryColorLight
+                                                            .withOpacity(
+                                                              utils
+                                                                  .nilDotFiveFive,
+                                                            ),
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                          fontWeight: FontWeight.w500,
-                                        ),
-                                      ),
-                                      const SizedBox(
-                                        height: utils.tinyPadding +
-                                            utils.tinyPadding,
-                                      ),
-                                      Icon(
-                                        FontAwesomeIcons.circlePlus,
-                                        size: (utils.largePadding +
-                                                utils.smallPadding) -
-                                            utils.tinyPadding,
-                                        color: Theme.of(context)
-                                            .primaryColorLight
-                                            .withOpacity(
-                                              utils.nilDotFiveFive,
-                                            ),
-                                      ),
-                                      const SizedBox(
-                                        height: utils.tinyPadding +
-                                            utils.tinyPadding,
-                                      ),
-                                      RichText(
-                                        text: TextSpan(
-                                          children: [
-                                            const TextSpan(
-                                              text: utils
-                                                  .toAssignQuestionModulesToText,
-                                            ),
-                                            const TextSpan(
-                                              text: utils.whiteSpaceText,
-                                            ),
-                                            TextSpan(
-                                              text: childDetailsOpsState.child
-                                                  .data()!
-                                                  .name,
-                                            ),
-                                          ],
-                                          style: TextStyle(
-                                            fontSize: utils.padding +
-                                                utils.veryTinyPadding,
-                                            color: Theme.of(context)
-                                                .primaryColorLight
-                                                .withOpacity(
-                                                  utils.nilDotFiveFive,
-                                                ),
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
                                   ),
                                 ),
                               ],
