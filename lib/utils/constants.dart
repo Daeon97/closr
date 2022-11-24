@@ -11,6 +11,8 @@ const quizzesScreenRoute = '/quizzesScreen';
 const quizzesToQuestionsTransitionScreenRoute =
     '/quizzesToQuestionsTransitionScreen';
 const questionsScreenRoute = '/questionsScreen';
+const questionsToQuizzesTransitionScreenRoute =
+    '/questionsToQuizzesTransitionScreen';
 
 const childrenCollectionName = 'children';
 const modulesCollectionName = 'modules';
@@ -26,6 +28,7 @@ const questionField = 'question';
 const optionsField = 'options';
 const timestampField = 'timestamp';
 const parentField = 'parent';
+const answerField = 'answer';
 
 const baseColor = Color(0xFF1A2B47);
 const baseColorLight = Color(0xFF2D3D5E);
@@ -58,8 +61,11 @@ const avatarPrototypeCharacterMouthSMIInput = 'Mouth';
 
 const breathingBookCharacterRiveAsset = 'assets/breathing_book_character.riv';
 
-const holdingPhoneImage = AssetImage(
-  'assets/holding_phone.png',
+const holdingPhoneOneImage = AssetImage(
+  'assets/holding_phone_one.png',
+);
+const holdingPhoneTwoImage = AssetImage(
+  'assets/holding_phone_two.png',
 );
 
 const extraLargePadding = 128.0;
@@ -70,7 +76,9 @@ const smallPadding = 8.0;
 const tinyPadding = 2.0;
 const veryTinyPadding = 1.0;
 const nil = 0.0;
+
 const oneDotFive = 1.5;
+const oneHundredDotNil = 100.0;
 const eightHundredDotNil = 800.0;
 const threeHundredDotNil = 300.0;
 const fourHundredDotNil = 400.0;
@@ -171,6 +179,12 @@ const startText = 'Start';
 const continueText = 'Continue';
 const instructionText = 'Instruction';
 const passYourText = 'Pass Your';
+const passTheText = 'Pass The';
 const phoneToText = 'Phone To';
+const yourText = 'Your';
+const noAvailableQuestionsForThisModuleText =
+    'There are no available questions for this module';
+const doneText = 'Done';
+const quizDateFormatText = 'dd MMM y';
 
 const waveHandSignEmoji = '👋';

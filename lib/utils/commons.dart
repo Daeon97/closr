@@ -82,144 +82,128 @@ void addChild(
 
   showModalBottomSheet(
     context: context,
-    builder: (context) => Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).scaffoldBackgroundColor,
-        borderRadius: const BorderRadius.all(
-          Radius.circular(
-            constants.padding + constants.tinyPadding + constants.tinyPadding,
+    isScrollControlled: true,
+    builder: (context) => Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).scaffoldBackgroundColor,
+          borderRadius: const BorderRadius.all(
+            Radius.circular(
+              constants.padding + constants.tinyPadding + constants.tinyPadding,
+            ),
           ),
         ),
-      ),
-      margin: const EdgeInsets.all(
-        constants.padding,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(
+        margin: const EdgeInsets.all(
           constants.padding,
         ),
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Align(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    constants.fillInChildsDetailsText,
-                    style: TextStyle(
-                      fontSize: (constants.smallPadding +
-                              constants.smallPadding) -
-                          (constants.tinyPadding + constants.veryTinyPadding),
-                      color: Theme.of(context)
-                          .floatingActionButtonTheme
-                          .backgroundColor,
-                    ),
-                  ),
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.name,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: const InputDecoration(
-                    labelText: constants.nameText,
-                  ),
-                  onChanged: (value) {
-                    name = value;
-                  },
-                  validator: (value) => value == null || value.isEmpty
-                      ? constants.emptyNameFieldText
-                      : null,
-                ),
-                const SizedBox(
-                  height: constants.padding,
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  autovalidateMode: AutovalidateMode.onUserInteraction,
-                  decoration: const InputDecoration(
-                    labelText: constants.ageText,
-                  ),
-                  onChanged: (value) {
-                    age = value;
-                  },
-                  validator: (value) => value == null || value.isEmpty
-                      ? constants.emptyAgeFieldText
-                      : null,
-                ),
-                const SizedBox(
-                  height: constants.padding,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const Text(
-                            constants.genderText,
-                          ),
-                          DropdownButtonFormField<String>(
-                            items: List<DropdownMenuItem<String>>.generate(
-                              constants.tinyPadding.toInt(),
-                              (index) => DropdownMenuItem<String>(
-                                value: index == constants.nil.toInt()
-                                    ? constants.maleText
-                                    : constants.femaleText,
-                                child: Text(
-                                  index == constants.nil.toInt()
-                                      ? constants.maleText
-                                      : constants.femaleText,
-                                ),
-                              ),
-                              growable: false,
-                            ),
-                            onChanged: (value) {
-                              gender = value ?? constants.emptyStringText;
-                            },
-                            validator: (value) => value == null || value.isEmpty
-                                ? constants.emptyGenderFieldText
-                                : null,
-                          ),
-                        ],
+        child: Padding(
+          padding: const EdgeInsets.all(
+            constants.padding,
+          ),
+          child: SingleChildScrollView(
+            child: Form(
+              key: formKey,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      constants.fillInChildsDetailsText,
+                      style: TextStyle(
+                        fontSize: (constants.smallPadding +
+                                constants.smallPadding) -
+                            (constants.tinyPadding + constants.veryTinyPadding),
+                        color: Theme.of(context)
+                            .floatingActionButtonTheme
+                            .backgroundColor,
                       ),
                     ),
-                    const SizedBox(
-                      width: constants.padding,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.name,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: const InputDecoration(
+                      labelText: constants.nameText,
                     ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          const Text(
-                            constants.classText,
-                          ),
-                          DropdownButtonFormField<String>(
-                            items: List<DropdownMenuItem<String>>.generate(
-                              constants.smallPadding.toInt() -
-                                  constants.tinyPadding.toInt(),
-                              (index) => DropdownMenuItem<String>(
-                                value: index == constants.nil.toInt()
-                                    ? constants.jss1Text
-                                    : index == constants.veryTinyPadding.toInt()
-                                        ? constants.jss2Text
-                                        : index == constants.tinyPadding.toInt()
-                                            ? constants.jss3Text
-                                            : index ==
-                                                    constants.tinyPadding
-                                                            .toInt() +
-                                                        constants
-                                                            .veryTinyPadding
-                                                            .toInt()
-                                                ? constants.sss1Text
-                                                : index ==
-                                                        constants.tinyPadding
-                                                                .toInt() +
-                                                            constants
-                                                                .tinyPadding
-                                                                .toInt()
-                                                    ? constants.sss2Text
-                                                    : constants.sss3Text,
-                                child: Text(
-                                  index == constants.nil.toInt()
+                    onChanged: (value) {
+                      name = value;
+                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? constants.emptyNameFieldText
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: constants.padding,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    decoration: const InputDecoration(
+                      labelText: constants.ageText,
+                    ),
+                    onChanged: (value) {
+                      age = value;
+                    },
+                    validator: (value) => value == null || value.isEmpty
+                        ? constants.emptyAgeFieldText
+                        : null,
+                  ),
+                  const SizedBox(
+                    height: constants.padding,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const Text(
+                              constants.genderText,
+                            ),
+                            DropdownButtonFormField<String>(
+                              items: List<DropdownMenuItem<String>>.generate(
+                                constants.tinyPadding.toInt(),
+                                (index) => DropdownMenuItem<String>(
+                                  value: index == constants.nil.toInt()
+                                      ? constants.maleText
+                                      : constants.femaleText,
+                                  child: Text(
+                                    index == constants.nil.toInt()
+                                        ? constants.maleText
+                                        : constants.femaleText,
+                                  ),
+                                ),
+                                growable: false,
+                              ),
+                              onChanged: (value) {
+                                gender = value ?? constants.emptyStringText;
+                              },
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? constants.emptyGenderFieldText
+                                      : null,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        width: constants.padding,
+                      ),
+                      Expanded(
+                        child: Column(
+                          children: [
+                            const Text(
+                              constants.classText,
+                            ),
+                            DropdownButtonFormField<String>(
+                              items: List<DropdownMenuItem<String>>.generate(
+                                constants.smallPadding.toInt() -
+                                    constants.tinyPadding.toInt(),
+                                (index) => DropdownMenuItem<String>(
+                                  value: index == constants.nil.toInt()
                                       ? constants.jss1Text
                                       : index ==
                                               constants.veryTinyPadding.toInt()
@@ -242,51 +226,80 @@ void addChild(
                                                                   .toInt()
                                                       ? constants.sss2Text
                                                       : constants.sss3Text,
+                                  child: Text(
+                                    index == constants.nil.toInt()
+                                        ? constants.jss1Text
+                                        : index ==
+                                                constants.veryTinyPadding
+                                                    .toInt()
+                                            ? constants.jss2Text
+                                            : index ==
+                                                    constants.tinyPadding
+                                                        .toInt()
+                                                ? constants.jss3Text
+                                                : index ==
+                                                        constants.tinyPadding
+                                                                .toInt() +
+                                                            constants
+                                                                .veryTinyPadding
+                                                                .toInt()
+                                                    ? constants.sss1Text
+                                                    : index ==
+                                                            constants
+                                                                    .tinyPadding
+                                                                    .toInt() +
+                                                                constants
+                                                                    .tinyPadding
+                                                                    .toInt()
+                                                        ? constants.sss2Text
+                                                        : constants.sss3Text,
+                                  ),
                                 ),
+                                growable: false,
                               ),
-                              growable: false,
+                              onChanged: (value) {
+                                mClass = value ?? constants.emptyStringText;
+                              },
+                              validator: (value) =>
+                                  value == null || value.isEmpty
+                                      ? constants.emptyClassFieldText
+                                      : null,
                             ),
-                            onChanged: (value) {
-                              mClass = value ?? constants.emptyStringText;
-                            },
-                            validator: (value) => value == null || value.isEmpty
-                                ? constants.emptyClassFieldText
-                                : null,
-                          ),
-                        ],
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: constants.largePadding,
+                  ),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all<Color>(
+                        Theme.of(context)
+                            .floatingActionButtonTheme
+                            .backgroundColor!,
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: constants.largePadding,
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
-                      Theme.of(context)
-                          .floatingActionButtonTheme
-                          .backgroundColor!,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        BlocProvider.of<ChildOpsCubit>(context).addChild(
+                          name: name,
+                          age: int.parse(age),
+                          gender: gender,
+                          mClass: mClass,
+                        );
+                        Navigator.of(context).pop();
+                      }
+                    },
+                    child: const Center(
+                      child: Text(
+                        constants.addChildText,
+                      ),
                     ),
                   ),
-                  onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      BlocProvider.of<ChildOpsCubit>(context).addChild(
-                        name: name,
-                        age: int.parse(age),
-                        gender: gender,
-                        mClass: mClass,
-                      );
-                      Navigator.of(context).pop();
-                    }
-                  },
-                  child: const Center(
-                    child: Text(
-                      constants.addChildText,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

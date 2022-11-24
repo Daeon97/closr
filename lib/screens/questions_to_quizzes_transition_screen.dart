@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import '../cubits/cubits.dart';
 import '../utils/utils.dart' as utils;
 
-class QuizzesToQuestionsTransitionScreen extends StatefulWidget {
-  const QuizzesToQuestionsTransitionScreen(this._id, {Key? key})
-      : super(key: key);
-
-  final String _id;
+class QuestionsToQuizzesTransitionScreen extends StatefulWidget {
+  const QuestionsToQuizzesTransitionScreen({Key? key}) : super(key: key);
 
   @override
-  State<QuizzesToQuestionsTransitionScreen> createState() =>
-      _QuizzesToQuestionsTransitionScreenState();
+  State<QuestionsToQuizzesTransitionScreen> createState() =>
+      _QuestionsToQuizzesTransitionScreenState();
 }
 
-class _QuizzesToQuestionsTransitionScreenState
-    extends State<QuizzesToQuestionsTransitionScreen> {
+class _QuestionsToQuizzesTransitionScreenState
+    extends State<QuestionsToQuizzesTransitionScreen> {
   @override
   void initState() {
     _delay();
@@ -29,10 +24,7 @@ class _QuizzesToQuestionsTransitionScreenState
       Duration(
         seconds: utils.tinyPadding.toInt() + utils.veryTinyPadding.toInt(),
       ),
-      () => Navigator.of(context).pushReplacementNamed(
-        utils.questionsScreenRoute,
-        arguments: widget._id,
-      ),
+      () => Navigator.of(context).pop(),
     );
   }
 
@@ -79,55 +71,54 @@ class _QuizzesToQuestionsTransitionScreenState
                           ),
                         ),
                         const SizedBox(
-                          height: utils.extraLargePadding + utils.largePadding,
+                          height:
+                              utils.extraLargePadding + utils.veryLargePadding,
                         ),
                         Stack(
                           clipBehavior: Clip.none,
                           alignment: Alignment.topCenter,
                           children: [
                             Positioned(
-                              top: -utils.extraLargePadding,
-                              child: BlocBuilder<ChildDetailsOpsCubit,
-                                  ChildDetailsOpsState>(
-                                builder: (_, childDetailsOpsState) => RichText(
-                                  textAlign: TextAlign.center,
-                                  text: TextSpan(
-                                    style: TextStyle(
-                                      fontSize:
-                                          (utils.largePadding + utils.padding) -
-                                              utils.tinyPadding,
-                                      color:
-                                          Theme.of(context).primaryColorLight,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    children: [
-                                      const TextSpan(
-                                        text: utils.passYourText,
-                                      ),
-                                      const TextSpan(
-                                        text: utils.newLineText,
-                                      ),
-                                      const TextSpan(
-                                        text: utils.phoneToText,
-                                      ),
-                                      const TextSpan(
-                                        text: utils.newLineText,
-                                      ),
-                                      TextSpan(
-                                        text: childDetailsOpsState
-                                                is GotChildDetailsState
-                                            ? childDetailsOpsState.child
-                                                .data()!
-                                                .name
-                                            : utils.emptyStringText,
-                                      ),
-                                    ],
+                              top:
+                                  -utils.extraLargePadding - utils.largePadding,
+                              child: RichText(
+                                textAlign: TextAlign.center,
+                                text: TextSpan(
+                                  style: TextStyle(
+                                    fontSize:
+                                        (utils.largePadding + utils.padding) -
+                                            utils.tinyPadding,
+                                    color: Theme.of(context).primaryColorLight,
+                                    fontWeight: FontWeight.w500,
                                   ),
+                                  children: const [
+                                    TextSpan(
+                                      text: utils.passTheText,
+                                    ),
+                                    TextSpan(
+                                      text: utils.newLineText,
+                                    ),
+                                    TextSpan(
+                                      text: utils.phoneToText,
+                                    ),
+                                    TextSpan(
+                                      text: utils.newLineText,
+                                    ),
+                                    TextSpan(
+                                      text: utils.yourText,
+                                    ),
+                                    TextSpan(
+                                      text: utils.newLineText,
+                                    ),
+                                    TextSpan(
+                                      text: utils.parentText,
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
                             const Image(
-                              image: utils.holdingPhoneOneImage,
+                              image: utils.holdingPhoneTwoImage,
                             ),
                           ],
                         ),

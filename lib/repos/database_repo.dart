@@ -102,29 +102,48 @@ class DatabaseRepo {
     }
   }
 
-  // consider adding a child module questions function corresponding to this one too
-  Future<List<QueryDocumentSnapshot<Module>>> childModulesFuture(
-    String id,
-  ) =>
+  Stream<QuerySnapshot<Question>> childModuleQuestionsStream({
+    required String childId,
+    required String moduleId,
+  }) =>
       _firestore
           .collection(childrenCollectionName)
-          .doc(id)
+          .doc(childId)
           .collection(modulesCollectionName)
+          .doc(moduleId)
+          .collection(questionsCollectionName)
           .withConverter(
             fromFirestore: (documentSnapshot, _) =>
-                Module.fromJson(documentSnapshot.data()!),
-            toFirestore: (module, _) => module.toJson(),
+                Question.fromJson(documentSnapshot.data()!),
+            toFirestore: (question, _) => question.toJson(),
+          )
+          .snapshots();
+
+  Future<List<QueryDocumentSnapshot<Question>>> childModuleQuestionsFuture({
+    required String childId,
+    required String moduleId,
+  }) =>
+      _firestore
+          .collection(childrenCollectionName)
+          .doc(childId)
+          .collection(modulesCollectionName)
+          .doc(moduleId)
+          .collection(questionsCollectionName)
+          .withConverter(
+            fromFirestore: (documentSnapshot, _) =>
+                Question.fromJson(documentSnapshot.data()!),
+            toFirestore: (question, _) => question.toJson(),
           )
           .get()
           .then(
         (querySnapshot) {
-          final modules = <QueryDocumentSnapshot<Module>>[];
+          final questions = <QueryDocumentSnapshot<Question>>[];
           if (querySnapshot.docs.isNotEmpty) {
             for (final queryDocumentSnapshot in querySnapshot.docs) {
-              modules.add(queryDocumentSnapshot);
+              questions.add(queryDocumentSnapshot);
             }
           }
-          return modules;
+          return questions;
         },
       );
 
@@ -187,4 +206,48 @@ class DatabaseRepo {
 
     return modules;
   }
+
+  Future<void> answerQuestion({
+    required String childId,
+    required String moduleId,
+    required String questionId,
+    required int answer,
+  }) async {
+    final moduleDocumentReference = _firestore
+        .collection(childrenCollectionName)
+        .doc(childId)
+        .collection(modulesCollectionName)
+        .doc(moduleId);
+
+    final questionDocumentReference = moduleDocumentReference
+        .collection(questionsCollectionName)
+        .doc(questionId);
+
+    await questionDocumentReference.update({
+      answerField: answer,
+    });
+    await moduleDocumentReference.update({
+      timestampField: FieldValue.serverTimestamp(),
+    });
+  }
+
+  Stream<QuerySnapshot<Question>> childModuleQuestionsWithAnswerStream({
+    required String childId,
+    required String moduleId,
+  }) =>
+      _firestore
+          .collection(childrenCollectionName)
+          .doc(childId)
+          .collection(modulesCollectionName)
+          .doc(moduleId)
+          .collection(questionsCollectionName)
+          .where(
+            answerField,
+          )
+          .withConverter(
+            fromFirestore: (documentSnapshot, _) =>
+                Question.fromJson(documentSnapshot.data()!),
+            toFirestore: (question, _) => question.toJson(),
+          )
+          .snapshots();
 }

@@ -332,7 +332,6 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                                       onPressed: () {
                                         Navigator.of(context).pushNamed(
                                           utils.addModulesToChildScreenRoute,
-                                          arguments: widget._id,
                                         );
                                       },
                                       child: const Icon(
@@ -503,7 +502,6 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                                                             .pushNamed(
                                                           utils
                                                               .quizzesScreenRoute,
-                                                          arguments: widget._id,
                                                         );
                                                       },
                                                       child: const Icon(
@@ -561,6 +559,8 @@ class _ChildDetailsScreenState extends State<ChildDetailsScreen> {
                                                 modulesToChildOpsState
                                                     .modules.isNotEmpty
                                             ? Column(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
                                                 children: [
                                                   const SizedBox(
                                                     height: utils.smallPadding +

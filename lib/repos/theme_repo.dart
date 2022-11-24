@@ -121,5 +121,15 @@ class ThemeRepo {
           ),
           interactive: true,
         ),
+        radioTheme: RadioThemeData(
+          fillColor: MaterialStateProperty.all<Color>(
+            Colors.white,
+          ),
+          overlayColor: MaterialStateProperty.all<Color>(
+            utils.baseColorLight,
+          ),
+          splashRadius: utils.padding + utils.tinyPadding + utils.tinyPadding,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
       );
 }

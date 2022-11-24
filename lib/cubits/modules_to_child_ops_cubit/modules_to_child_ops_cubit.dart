@@ -26,19 +26,6 @@ class ModulesToChildOpsCubit extends Cubit<ModulesToChildOpsState> {
         moduleIds: moduleIds,
       );
 
-  void getChildModules(
-    String id,
-  ) async {
-    final modules = await _databaseRepo.childModulesFuture(
-      id,
-    );
-    emit(
-      GotChildModulesState(
-        modules,
-      ),
-    );
-  }
-
   void listenChildModulesChanges(
     String id,
   ) async {

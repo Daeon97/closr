@@ -123,10 +123,11 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         child: Scaffold(
+          resizeToAvoidBottomInset: false,
           body: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: utils.padding,
+              padding: const EdgeInsets.only(
+                top: utils.padding,
               ),
               child: Column(
                 children: [
@@ -930,9 +931,6 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(
-                    height: utils.veryLargePadding,
                   ),
                 ],
               ),

@@ -8,15 +8,20 @@ class Question extends Equatable {
   final String question;
   final List<String> options;
 
+  @JsonKey(includeIfNull: false)
+  final int? answer;
+
   const Question({
     required this.question,
     required this.options,
+    this.answer,
   });
 
   @override
   List<Object?> get props => [
         question,
         options,
+        answer,
       ];
 
   factory Question.fromJson(Map<String, dynamic> json) =>

@@ -48,6 +48,12 @@ class App extends StatelessWidget {
         BlocProvider<ModuleOpsCubit>(
           create: (ctx) => ModuleOpsCubit(ctx.read<DatabaseRepo>()),
         ),
+        BlocProvider<ModuleQuestionsOpsCubit>(
+          create: (ctx) => ModuleQuestionsOpsCubit(ctx.read<DatabaseRepo>()),
+        ),
+        BlocProvider<ModulesCompletionOpsCubit>(
+          create: (ctx) => ModulesCompletionOpsCubit(ctx.read<DatabaseRepo>()),
+        ),
         BlocProvider<ModulesToChildOpsCubit>(
           create: (ctx) => ModulesToChildOpsCubit(ctx.read<DatabaseRepo>()),
         ),
@@ -77,8 +83,10 @@ class App extends StatelessWidget {
                       },
                     )
                   : const HomeScreen();
+            case homeScreenRoute:
+              return const HomeScreen();
             case addModulesToChildScreenRoute:
-              return AddModulesToChildScreen(settings.arguments as String);
+              return const AddModulesToChildScreen();
             case selectCategoryScreenRoute:
               return const SelectCategoryScreen();
             case signInScreenRoute:
@@ -90,9 +98,12 @@ class App extends StatelessWidget {
             case quizzesScreenRoute:
               return const QuizzesScreen();
             case quizzesToQuestionsTransitionScreenRoute:
-              return const QuizzesToQuestionsTransitionScreen();
+              return QuizzesToQuestionsTransitionScreen(
+                  settings.arguments as String);
             case questionsScreenRoute:
-              return const QuestionsScreen();
+              return QuestionsScreen(settings.arguments as String);
+            case questionsToQuizzesTransitionScreenRoute:
+              return const QuestionsToQuizzesTransitionScreen();
             default:
               return const SizedBox(
                 width: nil,
