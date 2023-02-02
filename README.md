@@ -1,3 +1,3 @@
 # closr
 
-A new R4I project
+Closr is a 2-way interactive mobile app that helps parents monitor their children’s change in behavior, for prevention and intervention in cases of substance abuse. Closr was proposed by Team Good Health from the TETFund Research For Impact workshop event held in Innov8 Hub in collaboration with TETFUND https://www.facebook.com/profile/100064787029402/search/?q=closr. You can read more about the TETFund Research For Impact workshop event at https://www.facebook.com/profile/100064787029402/search/?q=tetfund%20research%20for%20impact or learn more about TETFUND at https://tetfund.gov.ng/
